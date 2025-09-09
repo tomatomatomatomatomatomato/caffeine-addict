@@ -3,10 +3,21 @@
     "category": "block",
     "subtitle": "Grinder working",
     "sounds": [
-      {
-        "name": "caffeineaddictmode:block/grinder",
-        "stream": true
-      }
+      { "name": "caffeineaddictmode:block/grinder", "stream": true }
+    ]
+  },
+  "block.ice_maker": {
+    "category": "block",
+    "subtitle": "Ice maker running",
+    "sounds": [
+      { "name": "caffeineaddictmode:block/ice_maker", "stream": true }
+    ]
+  },
+  "block.coffee_machine": {
+    "category": "block",
+    "subtitle": "Coffee Machine running",
+    "sounds": [
+      { "name": "caffeineaddictmode:block/coffee_machine", "stream": true }
     ]
   }
 }

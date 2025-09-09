@@ -1,5 +1,15 @@
 {
   "variants": {
-    "": { "model": "caffeineaddictmode:block/coffee_machine" }
+    "facing=north,part=left":  { "model": "caffeineaddictmode:block/espresso_left" },
+    "facing=north,part=right": { "model": "caffeineaddictmode:block/espresso_right" },
+
+    "facing=east,part=left":   { "model": "caffeineaddictmode:block/espresso_left",  "y": 90 },
+    "facing=east,part=right":  { "model": "caffeineaddictmode:block/espresso_right", "y": 90 },
+
+    "facing=south,part=left":  { "model": "caffeineaddictmode:block/espresso_left",  "y": 180 },
+    "facing=south,part=right": { "model": "caffeineaddictmode:block/espresso_right", "y": 180 },
+
+    "facing=west,part=left":   { "model": "caffeineaddictmode:block/espresso_left",  "y": 270 },
+    "facing=west,part=right":  { "model": "caffeineaddictmode:block/espresso_right", "y": 270 }
   }
 }
