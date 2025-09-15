@@ -1,10 +1,3 @@
 {
-  "parent": "caffeineaddictmode:block/espresso_item",
-  "display": {
-    "gui": { "rotation": [0, 180, 0], "translation": [0,0,0], "scale": [0.28,0.28,0.28] },
-    "ground": { "rotation": [0,0,0], "translation": [0,3,0], "scale": [0.26,0.26,0.26] },
-    "fixed":  { "rotation": [0,180,0], "scale": [0.30,0.30,0.30] },
-    "thirdperson_righthand": { "rotation": [75,45,0], "translation": [0,2,0], "scale": [0.28,0.28,0.28] },
-    "firstperson_righthand": { "rotation": [0,45,0], "scale": [0.30,0.30,0.30] }
-  }
+  "parent": "caffeineaddictmode:block/espresso_machine_l"
 }

@@ -85,13 +85,16 @@ public class IceMakerBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override // 아웃라인(하이라이트 선) = 크게 → 클릭 잘 됨
+//    public VoxelShape getShape(BlockState s, BlockGetter l, BlockPos p, CollisionContext c) {
+//        return switch (s.getValue(FACING)) {
+//            case EAST  -> PICK_E;
+//            case SOUTH -> PICK_S;
+//            case WEST  -> PICK_W;
+//            default    -> PICK_N;
+//        };
+//    }
     public VoxelShape getShape(BlockState s, BlockGetter l, BlockPos p, CollisionContext c) {
-        return switch (s.getValue(FACING)) {
-            case EAST  -> PICK_E;
-            case SOUTH -> PICK_S;
-            case WEST  -> PICK_W;
-            default    -> PICK_N;
-        };
+        return Shapes.block(); // 선택/하이라이트도 풀큐브
     }
 
     @Override // 레이 트레이스(부수기/상호작용) = 크게 → 밑/뒤 타격 방지
@@ -105,13 +108,16 @@ public class IceMakerBlock extends HorizontalDirectionalBlock implements EntityB
     }
 
     @Override // 충돌 = 딱 맞게 → 캐릭터가 ‘안으로’ 끼어들어 내부가 보이는 문제 방지
+//    public VoxelShape getCollisionShape(BlockState s, BlockGetter l, BlockPos p, CollisionContext c) {
+//        return switch (s.getValue(FACING)) {
+//            case EAST  -> COLL_E;
+//            case SOUTH -> COLL_S;
+//            case WEST  -> COLL_W;
+//            default    -> COLL_N;
+//        };
+//    }
     public VoxelShape getCollisionShape(BlockState s, BlockGetter l, BlockPos p, CollisionContext c) {
-        return switch (s.getValue(FACING)) {
-            case EAST  -> COLL_E;
-            case SOUTH -> COLL_S;
-            case WEST  -> COLL_W;
-            default    -> COLL_N;
-        };
+        return Shapes.block(); // 0~16 풀큐브
     }
 
     @Override // 시각 판정 = 충돌과 동일 → 카메라가 블록 내부를 관통해 보이는 현상 감소

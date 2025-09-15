@@ -6,6 +6,7 @@ import com.caffeineaddict.caffeineaddictmode.block.IceMakerBlock;
 
 import com.caffeineaddict.caffeineaddictmode.CaffeineAddictMode;
 import com.caffeineaddict.caffeineaddictmode.blocks.CoffeeMachine.CoffeeMachineBlock;
+import com.caffeineaddict.caffeineaddictmode.blocks.CoffeeMachine.CoffeeMachinePartBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
@@ -27,12 +28,23 @@ public class ModBlocks {
             BLOCKS.register("grinder", () ->
                     new GrinderBlock());
 
+    //    public static final RegistryObject<Block> ICE_MAKER =
+//            BLOCKS.register("ice_maker", () ->
+//                    new IceMakerBlock());
     public static final RegistryObject<Block> ICE_MAKER =
-            BLOCKS.register("ice_maker", () ->
-                    new IceMakerBlock());
+            BLOCKS.register("ice_maker", () -> new IceMakerBlock());
 
-    public static final RegistryObject<Block> COFFEE_MACHINE_BLOCK = BLOCKS.register("coffee_machine",
-            () -> new CoffeeMachineBlock(Properties.of(Material.STONE).strength(2.0f)));
+//    public static final RegistryObject<Block> COFFEE_MACHINE_BLOCK = BLOCKS.register("coffee_machine",
+//            () -> new CoffeeMachineBlock(Properties.of(Material.STONE).strength(2.0f)));
+
+    public static final RegistryObject<Block> COFFEE_MACHINE =
+            BLOCKS.register("coffee_machine",
+                    () -> new CoffeeMachineBlock(Properties.of(Material.STONE).strength(2.0f)));
+
+    public static final RegistryObject<Block> COFFEE_MACHINE_PART =
+            BLOCKS.register("coffee_machine_part",
+                    () -> new CoffeeMachinePartBlock(Properties.of(Material.STONE).strength(2.0f).noOcclusion()));
+
 
     public static void register() {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
