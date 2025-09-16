@@ -23,7 +23,7 @@ import net.minecraft.world.MenuProvider;
 import org.jetbrains.annotations.Nullable;
 
 public class GrinderBlock extends Block implements EntityBlock {
-    public GrinderBlock() {
+    public GrinderBlock(Properties properties) {
         super(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f));
     }
 

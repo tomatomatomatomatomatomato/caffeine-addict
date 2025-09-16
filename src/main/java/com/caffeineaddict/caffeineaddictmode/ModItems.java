@@ -46,9 +46,9 @@ public class ModItems {
                     new BlockItem(ModBlocks.GRINDER_BLOCK.get(), new Item.Properties().tab(ModCreativeTab.CAFFEINE_TAB))
             );
 
-//    public static final RegistryObject<Item> SHOT_MACHINE =
-//            ITEMS.register("shot_machine", () ->
-//                    new Item(new Item.Properties().stacksTo(16).tab(ModCreativeTab.CAFFEINE_TAB)));
+    public static final RegistryObject<Item> SHOT_MACHINE =
+            ITEMS.register("shot_machine", () ->
+                    new Item(new Item.Properties().stacksTo(16).tab(ModCreativeTab.CAFFEINE_TAB)));
 
     public static final RegistryObject<Item> STEAMER =
             ITEMS.register("steamer", () ->

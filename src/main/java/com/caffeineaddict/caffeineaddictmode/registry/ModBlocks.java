@@ -26,7 +26,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> GRINDER_BLOCK =
             BLOCKS.register("grinder", () ->
-                    new GrinderBlock());
+                    new GrinderBlock(Properties.of(Material.STONE).strength(2.0f).noOcclusion()));
 
     //    public static final RegistryObject<Block> ICE_MAKER =
 //            BLOCKS.register("ice_maker", () ->
@@ -39,7 +39,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> COFFEE_MACHINE =
             BLOCKS.register("coffee_machine",
-                    () -> new CoffeeMachineBlock(Properties.of(Material.STONE).strength(2.0f)));
+                    () -> new CoffeeMachineBlock(Properties.of(Material.STONE).strength(2.0f).noOcclusion()));
 
     public static final RegistryObject<Block> COFFEE_MACHINE_PART =
             BLOCKS.register("coffee_machine_part",

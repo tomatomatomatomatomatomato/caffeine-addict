@@ -26,12 +26,32 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class CoffeeMachineBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-//    public CoffeeMachineBlock(Properties properties) {
+    private static final VoxelShape MAIN_W = Block.box(0, 0, 0,  8, 12, 16); // X:0~8  (서쪽 절반)
+    private static final VoxelShape MAIN_E = Block.box(8, 0, 0, 16, 12, 16); // X:8~16 (동쪽 절반)
+    private static final VoxelShape MAIN_N = Block.box(0, 0, 0, 16, 12,  8); // Z:0~8  (북쪽 절반)
+    private static final VoxelShape MAIN_S = Block.box(0, 0, 8, 16, 12, 16); // Z:8~16 (남쪽 절반)
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+        // 본체는 플레이어 기준 “왼쪽 절반”에 위치하고, 파트가 오른쪽(시계방향)에 놓인다고 가정
+        return switch (state.getValue(FACING)) {
+            case NORTH -> MAIN_W; // 오른쪽=EAST → 본체는 WEST 절반
+            case EAST  -> MAIN_N; // 오른쪽=SOUTH → 본체는 NORTH 절반
+            case SOUTH -> MAIN_E; // 오른쪽=WEST  → 본체는 EAST 절반
+            case WEST  -> MAIN_S; // 오른쪽=NORTH → 본체는 SOUTH 절반
+            default    -> MAIN_W;
+        };
+    }
+
+    //    public CoffeeMachineBlock(Properties properties) {
 //        super(properties);
 //    }
     public CoffeeMachineBlock(Properties properties) {
@@ -67,15 +87,10 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state,
                             @Nullable LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-
         if (level.isClientSide) return;
 
         Direction facing = state.getValue(FACING);
-        BlockPos otherPos = pos.relative(facing);
-
-        if (level.getBlockState(otherPos).is(ModBlocks.COFFEE_MACHINE_PART.get())) {
-            return;
-        }
+        BlockPos otherPos = pos.relative(facing.getClockWise()); // ★ 옆(오른쪽)
 
         if (!level.getBlockState(otherPos).getMaterial().isReplaceable()) {
             level.destroyBlock(pos, true);
@@ -83,9 +98,7 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
         }
 
         level.setBlock(otherPos,
-                ModBlocks.COFFEE_MACHINE_PART.get()
-                        .defaultBlockState()
-                        .setValue(FACING, facing),
+                ModBlocks.COFFEE_MACHINE_PART.get().defaultBlockState().setValue(FACING, facing),
                 Block.UPDATE_ALL);
     }
     @Override
@@ -93,7 +106,7 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
         if (state.getBlock() != newState.getBlock()) {
             if (!level.isClientSide) {
                 Direction facing = state.getValue(FACING);
-                BlockPos otherPos = pos.relative(facing);
+                BlockPos otherPos = pos.relative(facing.getClockWise()); // ★ 동일 오프셋
                 if (level.getBlockState(otherPos).is(ModBlocks.COFFEE_MACHINE_PART.get())) {
                     level.destroyBlock(otherPos, false);
                 }
