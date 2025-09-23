@@ -3,6 +3,7 @@
   "itemGroup.tea_tab": "tea",
   "tooltip.caffeineaddictmode.quality_desc": "Quality : %s",
   "tooltip.caffeineaddictmode.barista_desc": "Barista : %s",
+
   "item.caffeineaddictmode.coffee_bean": "Coffee Bean",
   "item.caffeineaddictmode.roasted_coffee_bean": "Roasted Coffee Bean",
   "item.caffeineaddictmode.coffee_powder": "Coffee Powder",
@@ -18,6 +19,7 @@
   "item.caffeineaddictmode.ice_americano": "Iced Americano",
   "item.caffeineaddictmode.latte": "Latte",
   "item.caffeineaddictmode.ice_latte": "Iced Latte",
+
   "block.caffeineaddictmode.water_dispenser": "Water Dispenser",
   "block.caffeineaddictmode.coffee_crop": "Coffee Plant",
   "block.caffeineaddictmode.coffee_machine": "Coffee Machine",
@@ -25,20 +27,64 @@
   "item.caffeineaddictmode.shot_machine": "Shot Machine",
   "item.caffeineaddictmode.steamer": "Steamer",
   "block.caffeineaddictmode.ice_maker": "Ice Maker",
+
   "item.caffeineaddictmode.dandelion_tea": "Dandelion Tea",
   "item.caffeineaddictmode.poppy_tea": "Poppy Tea",
   "item.caffeineaddictmode.allium_tea": "Allium Tea",
   "item.caffeineaddictmode.azure_bluet_tea": "Azure Bluet Tea",
   "item.caffeineaddictmode.cornflower_tea": "Cornflower Tea",
-  "item.caffeineaddictmode.wither_rose_tea": "Weather Rose Tea",
+  "item.caffeineaddictmode.wither_rose_tea": "Wither Rose Tea",
   "item.caffeineaddictmode.fern_tea": "Fern Tea",
   "item.caffeineaddictmode.warped_roots_tea": "Warped Roots Tea",
+
   "item.caffeineaddictmode.dried_dandelion_leaf": "Dried Dandelion Leaf",
   "item.caffeineaddictmode.dried_poppy_leaf": "Dried Poppy Leaf",
   "item.caffeineaddictmode.dried_allium_leaf": "Dried Allium Leaf",
   "item.caffeineaddictmode.dried_azure_bluet_leaf": "Dried Azure Bluet Leaf",
   "item.caffeineaddictmode.dried_cornflower_leaf": "Dried Cornflower Leaf",
-  "item.caffeineaddictmode.dried_wither_rose_leaf": "Dried Weather Rose Leaf",
+  "item.caffeineaddictmode.dried_wither_rose_leaf": "Dried Wither Rose Leaf",
   "item.caffeineaddictmode.dried_fern_leaf": "Dried Fern Leaf",
-  "item.caffeineaddictmode.dried_warped_roots_leaf": "Dried Warped Roots Leaf"
+  "item.caffeineaddictmode.dried_warped_roots_leaf": "Dried Warped Roots Leaf",
+
+  "advancement.caffeineaddictmode.start.title": "The Start of Caffeine",
+  "advancement.caffeineaddictmode.start.description": "Obtain a coffee bean",
+
+  "advancement.caffeineaddictmode.menu.title": "Complete the Café Menu",
+  "advancement.caffeineaddictmode.menu.description": "Craft every type of beverage",
+
+  "advancement.caffeineaddictmode.espresso_drink.title": "Yikes, That's Bitter!",
+  "advancement.caffeineaddictmode.espresso_drink.description": "Drink an espresso",
+
+  "advancement.caffeineaddictmode.night_ice_americano.title": "Another Late Night",
+  "advancement.caffeineaddictmode.night_ice_americano.description": "Drink an iced americano in the evening",
+
+  "advancement.caffeineaddictmode.snow_ice_americano.title": "Icy Addict",
+  "advancement.caffeineaddictmode.snow_ice_americano.description": "Drink an iced americano in a snowy biome",
+
+  "advancement.caffeineaddictmode.poppy_tea.title": "Am I... Allowed to Drink This?",
+  "advancement.caffeineaddictmode.poppy_tea.description": "Drink a poppy tea",
+
+  "advancement.caffeineaddictmode.wither_rose_tea.title": "Do I Really Have to Do This?",
+  "advancement.caffeineaddictmode.wither_rose_tea.description": "Drink a wither rose tea in the Nether",
+
+  "advancement.caffeineaddictmode.americano_hot.title": "One Hot Iced Americano, Please",
+  "advancement.caffeineaddictmode.americano_hot.description": "Craft a hot americano",
+
+  "advancement.caffeineaddictmode.espresso.title": "Barista",
+  "advancement.caffeineaddictmode.espresso.description": "Craft an espresso",
+
+  "advancement.caffeineaddictmode.espresso_3star.title": "Three Stars",
+  "advancement.caffeineaddictmode.espresso_3star.description": "Craft a 3-star espresso",
+
+  "advancement.caffeineaddictmode.espresso_machine.title": "Let’s Pull a Shot",
+  "advancement.caffeineaddictmode.espresso_machine.description": "Craft an espresso machine",
+
+  "advancement.caffeineaddictmode.latte.title": "Make It Smooth",
+  "advancement.caffeineaddictmode.latte.description": "Craft a hot latte",
+
+  "advancement.caffeineaddictmode.tea_time.title": "Tea Time",
+  "advancement.caffeineaddictmode.tea_time.description": "Brew any kind of tea",
+
+  "advancement.caffeineaddictmode.tea_leaf.title": "Tea Story",
+  "advancement.caffeineaddictmode.tea_leaf.description": "Craft any kind of tea leaf"
 }

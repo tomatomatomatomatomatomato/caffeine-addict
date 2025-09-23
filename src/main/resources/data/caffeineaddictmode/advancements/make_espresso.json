@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_espressomachine",
   "display": {
     "icon": { "item": "caffeineaddictmode:espresso" },
-    "title": "바리스타",
-    "description": "에스프레소를 만드세요",
+    "title": { "translate": "advancement.caffeineaddictmode.espresso.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.espresso.description" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "has_espresso": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": ["caffeineaddictmode:espresso"] }] }
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:espresso"] }]
+      }
     }
   }
 }

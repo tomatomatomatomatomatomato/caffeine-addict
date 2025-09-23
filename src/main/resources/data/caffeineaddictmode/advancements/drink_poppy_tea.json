@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_tea",
   "display": {
     "icon": { "item": "caffeineaddictmode:poppy_tea" },
-    "title": "이거.. 마셔도 되는거야?",
-    "description": "양귀비 차를 마시세요",
+    "title": { "translate": "advancement.caffeineaddictmode.poppy_tea.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.poppy_tea.description" },
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "consumed": {
       "trigger": "minecraft:consume_item",
-      "conditions": { "item": { "items": ["caffeineaddictmode:poppy_tea"] } }
+      "conditions": {
+        "item": { "items": ["caffeineaddictmode:poppy_tea"] }
+      }
     }
   }
 }

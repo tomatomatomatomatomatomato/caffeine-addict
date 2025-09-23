@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_espresso",
   "display": {
     "icon": { "item": "caffeineaddictmode:latte" },
-    "title": "부드럽게 부탁해",
-    "description": "뜨거운 라떼를 만드세요",
+    "title": { "translate": "advancement.caffeineaddictmode.latte.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.latte.description" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "has_latte": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": ["caffeineaddictmode:latte"] }] }
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:latte"] }]
+      }
     }
   }
 }
