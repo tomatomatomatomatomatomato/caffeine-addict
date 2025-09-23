@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "caffeineaddictmode:dried_dandelion_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_allium_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_azure_bluet_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_cornflower_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_poppy_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_wither_rose_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_fern_leaf", "required": false },
+    { "id": "caffeineaddictmode:dried_warped_roots_leaf", "required": false }
+  ]
+}

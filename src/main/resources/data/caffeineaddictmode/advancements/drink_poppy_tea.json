@@ -1,0 +1,20 @@
+{
+  "parent": "caffeineaddictmode:make_tea",
+  "display": {
+    "icon": { "item": "caffeineaddictmode:poppy_tea" },
+    "title": { "translate": "advancement.caffeineaddictmode.poppy_tea.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.poppy_tea.description" },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "consumed": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": { "items": ["caffeineaddictmode:poppy_tea"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "parent": "caffeineaddictmode:begin_of_coffee",
+  "display": {
+    "icon": { "item": "minecraft:writable_book" },
+    "title": {
+      "translate": "advancement.caffeineaddictmode.menu.title"
+    },
+    "description": {
+      "translate": "advancement.caffeineaddictmode.menu.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_espresso":          { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:espresso"] }] } },
+    "has_americano":         { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:americano"] }] } },
+    "has_ice_americano":     { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:ice_americano"] }] } },
+    "has_latte":             { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:latte"] }] } },
+    "has_ice_latte":         { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:ice_latte"] }] } },
+
+    "has_dandelion_tea":     { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:dandelion_tea"] }] } },
+    "has_poppy_tea":         { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:poppy_tea"] }] } },
+    "has_allium_tea":        { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:allium_tea"] }] } },
+    "has_azure_bluet_tea":   { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:azure_bluet_tea"] }] } },
+    "has_cornflower_tea":    { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:cornflower_tea"] }] } },
+    "has_wither_rose_tea":   { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:wither_rose_tea"] }] } },
+    "has_fern_tea":          { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:fern_tea"] }] } },
+    "has_warped_roots_tea":  { "trigger": "minecraft:inventory_changed", "conditions": { "items": [{ "items": ["caffeineaddictmode:warped_roots_tea"] }] } }
+  },
+  "requirements": [
+    ["has_espresso"],
+    ["has_americano"],
+    ["has_ice_americano"],
+    ["has_latte"],
+    ["has_ice_latte"],
+
+    ["has_dandelion_tea"],
+    ["has_poppy_tea"],
+    ["has_allium_tea"],
+    ["has_azure_bluet_tea"],
+    ["has_cornflower_tea"],
+    ["has_wither_rose_tea"],
+    ["has_fern_tea"],
+    ["has_warped_roots_tea"]
+  ]
+}

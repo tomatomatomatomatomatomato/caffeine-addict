@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "caffeineaddictmode:shot_machine" },
+    { "item": "caffeineaddictmode:steamer" },
+    { "item": "caffeineaddictmode:steamer" }
+  ],
+  "result": { "item": "caffeineaddictmode:coffee_machine", "count": 1 }
+}

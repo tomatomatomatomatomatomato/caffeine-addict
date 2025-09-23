@@ -1,0 +1,20 @@
+{
+  "parent": "caffeineaddictmode:make_espressomachine",
+  "display": {
+    "icon": { "item": "caffeineaddictmode:espresso" },
+    "title": { "translate": "advancement.caffeineaddictmode.espresso.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.espresso.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_espresso": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:espresso"] }]
+      }
+    }
+  }
+}

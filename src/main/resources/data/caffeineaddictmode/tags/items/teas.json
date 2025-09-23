@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    { "id": "caffeineaddictmode:dandelion_tea", "required": false },
+    { "id": "caffeineaddictmode:poppy_tea", "required": false },
+    { "id": "caffeineaddictmode:allium_tea", "required": false },
+    { "id": "caffeineaddictmode:azure_bluet_tea", "required": false },
+    { "id": "caffeineaddictmode:cornflower_tea", "required": false },
+    { "id": "caffeineaddictmode:wither_rose_tea", "required": false },
+    { "id": "caffeineaddictmode:fern_tea", "required": false },
+    { "id": "caffeineaddictmode:warped_roots_tea", "required": false }
+  ]
+}

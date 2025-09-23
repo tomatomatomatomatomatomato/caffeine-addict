@@ -1,19 +1,25 @@
 package com.caffeineaddict.caffeineaddictmode.blocks.CoffeeMachine;
 
 import com.caffeineaddict.caffeineaddictmode.CoffeeMachineBlockEntities;
+import com.caffeineaddict.caffeineaddictmode.registry.ModBlockEntities;
 import com.caffeineaddict.caffeineaddictmode.registry.ModBlocks;
-import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
-//import javax.annotation.Nullable;
-
+import com.caffeineaddict.caffeineaddictmode.registry.ModSoundEvents;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Container;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -26,16 +32,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.network.NetworkHooks;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
-import net.minecraft.sounds.SoundSource;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.common.extensions.IForgeBlock;
 
 public class CoffeeMachineBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
@@ -92,7 +94,7 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
     }
 
-    
+
     @Override
     public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player,
                                  InteractionHand hand, BlockHitResult hit) {
@@ -128,6 +130,12 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof CoffeeMachineBlockEntity te) {
+                Containers.dropContents(level, pos, te.getShotContainerForRemoval()); // 내부 샷 인벤토리 아이템 흩뿌리기
+                Containers.dropContents(level, pos, te.getSteamContainerForRemoval()); // 내부 스팀 인벤토리 아이템 흩뿌리기
+            }
+            super.onRemove(state, level, pos, newState, isMoving);
             if (!level.isClientSide) {
                 Direction facing = state.getValue(FACING);
                 BlockPos otherPos = pos.relative(facing.getClockWise());

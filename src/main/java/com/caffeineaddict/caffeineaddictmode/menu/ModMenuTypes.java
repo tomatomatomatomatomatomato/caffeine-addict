@@ -3,8 +3,9 @@ package com.caffeineaddict.caffeineaddictmode.menu;
 import com.caffeineaddict.caffeineaddictmode.CaffeineAddictMode;
 
 import com.caffeineaddict.caffeineaddictmode.blocks.CoffeeMachine.CoffeeMachineMenu;
+import com.caffeineaddict.caffeineaddictmode.blocks.Grinder.GrinderMenu;
+import com.caffeineaddict.caffeineaddictmode.blocks.IceMaker.IceMakerMenu;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;

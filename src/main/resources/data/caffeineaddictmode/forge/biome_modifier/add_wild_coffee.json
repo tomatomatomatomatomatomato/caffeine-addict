@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#caffeineaddictmode:is_savanna_like",
+  "features": ["caffeineaddictmode:wild_coffee_patch_placed"],
+  "step": "vegetal_decoration"
+}

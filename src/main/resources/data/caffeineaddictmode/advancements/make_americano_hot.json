@@ -1,0 +1,20 @@
+{
+  "parent": "caffeineaddictmode:make_espresso",
+  "display": {
+    "icon": { "item": "caffeineaddictmode:americano" },
+    "title": { "translate": "advancement.caffeineaddictmode.americano_hot.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.americano_hot.description" },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_americano": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:americano"] }]
+      }
+    }
+  }
+}

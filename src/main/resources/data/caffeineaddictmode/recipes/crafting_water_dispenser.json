@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "SRS",
+    "IHI"
+  ],
+  "key": {
+    "W": { "item": "minecraft:water_bucket" },
+    "S": { "item": "minecraft:stone_button" },
+    "R": { "item": "minecraft:redstone" },
+    "I": { "item": "minecraft:iron_ingot" },
+    "H": { "item": "minecraft:hopper" }
+  },
+  "result": { "item": "caffeineaddictmode:water_dispenser", "count": 1 }
+}

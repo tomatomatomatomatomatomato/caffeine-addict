@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GHG",
+    "RIR",
+    "III"
+  ],
+  "key": {
+    "G": { "item": "minecraft:glass" },
+    "H": { "item": "minecraft:hopper" },
+    "R": { "item": "minecraft:redstone" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "result": { "item": "caffeineaddictmode:shot_machine", "count": 1 }
+}

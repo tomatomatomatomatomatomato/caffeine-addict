@@ -1,0 +1,23 @@
+{
+  "parent": "caffeineaddictmode:make_americano_hot",
+  "display": {
+    "icon": { "item": "caffeineaddictmode:ice_americano" },
+    "title": { "translate": "advancement.caffeineaddictmode.night_ice_americano.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.night_ice_americano.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "consumed_ice_americano_overworld": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": { "items": ["caffeineaddictmode:ice_americano"] },
+        "player": {
+          "location": { "dimension": "minecraft:overworld" }
+        }
+      }
+    }
+  }
+}

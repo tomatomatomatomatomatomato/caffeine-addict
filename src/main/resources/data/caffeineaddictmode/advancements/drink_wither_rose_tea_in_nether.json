@@ -1,0 +1,23 @@
+{
+  "parent": "caffeineaddictmode:make_tea",
+  "display": {
+    "icon": { "item": "caffeineaddictmode:wither_rose_tea" },
+    "title": { "translate": "advancement.caffeineaddictmode.wither_rose_tea.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.wither_rose_tea.description" },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "drink_in_nether": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": { "items": ["caffeineaddictmode:wither_rose_tea"] },
+        "player": {
+          "location": { "dimension": "minecraft:the_nether" }
+        }
+      }
+    }
+  }
+}
