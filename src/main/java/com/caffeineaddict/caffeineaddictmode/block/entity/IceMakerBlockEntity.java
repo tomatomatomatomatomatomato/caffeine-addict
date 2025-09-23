@@ -56,7 +56,7 @@ public class IceMakerBlockEntity extends BlockEntity implements MenuProvider {
     // 메뉴 이름
     @Override
     public Component getDisplayName() {
-        return Component.literal("제빙기");
+        return Component.literal("Ice Maker");
     }
 
     // GUI 열기
