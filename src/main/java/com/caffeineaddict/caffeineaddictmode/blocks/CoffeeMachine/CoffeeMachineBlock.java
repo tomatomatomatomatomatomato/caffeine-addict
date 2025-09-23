@@ -39,16 +39,25 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
     private static final VoxelShape MAIN_N = Block.box(0, 0, 0, 16, 12,  8); // Z:0~8  (북쪽 절반)
     private static final VoxelShape MAIN_S = Block.box(0, 0, 8, 16, 12, 16); // Z:8~16 (남쪽 절반)
 
+    private static final VoxelShape SHAPE_NS = Block.box(0, 0, 0, 16, 16, 16); // 북/남 방향 때
+    private static final VoxelShape SHAPE_EW = Block.box(0, 0, 0, 16, 16, 16); // 동/서 방향 때
+
+
+//    @Override
+//    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+//        // 본체는 플레이어 기준 “왼쪽 절반”에 위치하고, 파트가 오른쪽(시계방향)에 놓인다고 가정
+//        return switch (state.getValue(FACING)) {
+//            case NORTH -> MAIN_W; // 오른쪽=EAST → 본체는 WEST 절반
+//            case EAST  -> MAIN_N; // 오른쪽=SOUTH → 본체는 NORTH 절반
+//            case SOUTH -> MAIN_E; // 오른쪽=WEST  → 본체는 EAST 절반
+//            case WEST  -> MAIN_S; // 오른쪽=NORTH → 본체는 SOUTH 절반
+//            default    -> MAIN_W;
+//        };
+//    }
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-        // 본체는 플레이어 기준 “왼쪽 절반”에 위치하고, 파트가 오른쪽(시계방향)에 놓인다고 가정
-        return switch (state.getValue(FACING)) {
-            case NORTH -> MAIN_W; // 오른쪽=EAST → 본체는 WEST 절반
-            case EAST  -> MAIN_N; // 오른쪽=SOUTH → 본체는 NORTH 절반
-            case SOUTH -> MAIN_E; // 오른쪽=WEST  → 본체는 EAST 절반
-            case WEST  -> MAIN_S; // 오른쪽=NORTH → 본체는 SOUTH 절반
-            default    -> MAIN_W;
-        };
+        Direction f = state.getValue(FACING);
+        return (f == Direction.NORTH || f == Direction.SOUTH) ? SHAPE_NS : SHAPE_EW;
     }
 
     //    public CoffeeMachineBlock(Properties properties) {
@@ -134,5 +143,8 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
                 : null;
     }
 
-
+    @Override
+    public float getShadeBrightness(BlockState state, BlockGetter level, BlockPos pos) {
+        return 1.0F; // 방향별 밝기 차이 제거
+    }
 }
