@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_espresso",
   "display": {
     "icon": { "item": "caffeineaddictmode:americano" },
-    "title": "뜨거운 아이스 아메리카노 한 잔 주세요",
-    "description": "뜨거운 아메리카노를 제작하세요",
+    "title": { "translate": "advancement.caffeineaddictmode.americano_hot.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.americano_hot.description" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "has_americano": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": ["caffeineaddictmode:americano"] }] }
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:americano"] }]
+      }
     }
   }
 }

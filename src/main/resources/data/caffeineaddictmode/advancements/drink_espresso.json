@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_espresso",
   "display": {
     "icon": { "item": "caffeineaddictmode:espresso" },
-    "title": "으악 써",
-    "description": "에스프레소를 마시세요",
+    "title": { "translate": "advancement.caffeineaddictmode.espresso_drink.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.espresso_drink.description" },
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "consumed": {
       "trigger": "minecraft:consume_item",
-      "conditions": { "item": { "items": ["caffeineaddictmode:espresso"] } }
+      "conditions": {
+        "item": { "items": ["caffeineaddictmode:espresso"] }
+      }
     }
   }
 }

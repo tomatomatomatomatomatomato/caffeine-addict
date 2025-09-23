@@ -2,8 +2,12 @@
   "parent": "caffeineaddictmode:begin_of_coffee",
   "display": {
     "icon": { "item": "minecraft:writable_book" },
-    "title": "카페 메뉴판 완성",
-    "description": "모든 종류의 음료를 제작하세요",
+    "title": {
+      "translate": "advancement.caffeineaddictmode.menu.title"
+    },
+    "description": {
+      "translate": "advancement.caffeineaddictmode.menu.description"
+    },
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,

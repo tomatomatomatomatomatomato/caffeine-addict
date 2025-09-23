@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:begin_of_coffee",
   "display": {
     "icon": { "item": "caffeineaddictmode:coffee_machine" },
-    "title": "한 잔 뽑아볼까",
-    "description": "에스프레소 머신을 제작하세요",
+    "title": { "translate": "advancement.caffeineaddictmode.espresso_machine.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.espresso_machine.description" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -12,7 +12,9 @@
   "criteria": {
     "has_machine": {
       "trigger": "minecraft:inventory_changed",
-      "conditions": { "items": [{ "items": ["caffeineaddictmode:coffee_machine"] }] }
+      "conditions": {
+        "items": [{ "items": ["caffeineaddictmode:coffee_machine"] }]
+      }
     }
   }
 }

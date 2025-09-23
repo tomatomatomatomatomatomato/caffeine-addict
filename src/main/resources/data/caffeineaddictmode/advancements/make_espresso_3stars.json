@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_espressomachine",
   "display": {
     "icon": { "item": "minecraft:nether_star" },
-    "title": "별이 3개",
-    "description": "3별 에스프레소를 제작하세요",
+    "title": { "translate": "advancement.caffeineaddictmode.espresso_3star.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.espresso_3star.description" },
     "frame": "goal",
     "show_toast": true,
     "announce_to_chat": true,
@@ -13,10 +13,12 @@
     "has_3star_espresso": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{
-          "items": ["caffeineaddictmode:espresso"],
-          "nbt": "{star:3}"
-        }]
+        "items": [
+          {
+            "items": ["caffeineaddictmode:espresso"],
+            "nbt": "{star:3}"
+          }
+        ]
       }
     }
   }

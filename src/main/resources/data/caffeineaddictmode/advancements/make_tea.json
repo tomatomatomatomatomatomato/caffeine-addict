@@ -2,8 +2,8 @@
   "parent": "caffeineaddictmode:make_tea_leaf",
   "display": {
     "icon": { "item": "caffeineaddictmode:dandelion_tea" },
-    "title": "티타임",
-    "description": "아무 종류의 차를 우리세요",
+    "title": { "translate": "advancement.caffeineaddictmode.tea_time.title" },
+    "description": { "translate": "advancement.caffeineaddictmode.tea_time.description" },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -13,7 +13,9 @@
     "has_any_tea": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": [{ "tag": "caffeineaddictmode:teas" }]
+        "items": [
+          { "tag": "caffeineaddictmode:teas" }
+        ]
       }
     }
   }

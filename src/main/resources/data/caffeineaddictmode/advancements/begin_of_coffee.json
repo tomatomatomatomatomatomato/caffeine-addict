@@ -1,8 +1,12 @@
 {
   "display": {
     "icon": { "item": "caffeineaddictmode:coffee_bean" },
-    "title": "커피 중독의 시작",
-    "description": "커피콩을 획득하세요",
+    "title": {
+      "translate": "advancement.caffeineaddictmode.start.title"
+    },
+    "description": {
+      "translate": "advancement.caffeineaddictmode.start.description"
+    },
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
