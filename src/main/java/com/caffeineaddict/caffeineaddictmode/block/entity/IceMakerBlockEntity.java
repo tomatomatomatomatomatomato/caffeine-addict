@@ -24,6 +24,11 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,6 +39,10 @@ public class IceMakerBlockEntity extends BlockEntity implements MenuProvider {
 
     private int progress = 0;
     private int maxProgress = 100;
+
+    private boolean wasWorking = false;
+    private long lastSoundGameTime = -200;
+    private static final int SOUND_COOLDOWN_TICKS = 240;
 
     public IceMakerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.ICE_MAKER.get(), pos, state);
@@ -94,37 +103,67 @@ public class IceMakerBlockEntity extends BlockEntity implements MenuProvider {
     public static void tick(Level level, BlockPos pos, BlockState state, IceMakerBlockEntity entity) {
         if (level.isClientSide) return;
 
-        ItemStack input = entity.itemHandler.getStackInSlot(0);
+        ItemStack input  = entity.itemHandler.getStackInSlot(0);
         ItemStack output = entity.itemHandler.getStackInSlot(1);
 
-        boolean validInput = input.getItem() == ModItems.HOT_WATER.get()
-                || input.getItem() == ModItems.COOL_WATER.get();
+        boolean validInput  = input.getItem() == ModItems.HOT_WATER.get() || input.getItem() == ModItems.COOL_WATER.get();
+        boolean validOutput = output.isEmpty()
+                || (output.getItem() == ModItems.ICE.get() && output.getCount() < output.getMaxStackSize());
 
-        boolean validOutput = output.isEmpty() ||
-                (output.getItem() == ModItems.ICE.get() && output.getCount() < output.getMaxStackSize());
+        boolean canProcess = validInput && validOutput;
 
-        if (validInput && validOutput) {
+        if (canProcess) {
+            // ----- 진행/생산: 여기서만 처리 -----
             entity.progress++;
             if (entity.progress >= entity.maxProgress) {
-                // 입력 아이템 소비
+                // 입력 1개 소비
                 entity.itemHandler.extractItem(0, 1, false);
-
-                // 출력 슬롯에 ICE 생성
-                if (output.isEmpty()) {
-                    entity.itemHandler.setStackInSlot(1, new ItemStack(ModItems.ICE.get(), 1));
-                } else {
-                    output.grow(1);
-                }
-
-                // 사운드
-                level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 0.7f, 1.0f);
-
+                // 출력 1개 추가 (빈/기존 상관 없이 안전)
+                entity.itemHandler.insertItem(1, new ItemStack(ModItems.ICE.get(), 1), false);
                 entity.progress = 0;
             }
+
+            // ----- 사운드: 작업 중엔 주기 재생 -----
+            long now = level.getGameTime();
+            if (!entity.wasWorking || now - entity.lastSoundGameTime >= SOUND_COOLDOWN_TICKS) {
+                level.playSound(null, pos, ModSoundEvents.ICE_MAKER_SOUND.get(), SoundSource.BLOCKS, 0.66f, 1.0f);
+                entity.lastSoundGameTime = now;
+            }
         } else {
+            // 가공 불가: 진행도 리셋 + 소리 정지(막 멈춘 프레임이면)
+            if (entity.wasWorking) {
+                entity.stopIceMakerSoundServer();
+                entity.lastSoundGameTime = level.getGameTime() - SOUND_COOLDOWN_TICKS; // 재시작 즉시 허용
+            }
             entity.progress = 0;
         }
 
+        entity.wasWorking = canProcess;
         entity.setChanged();
+    }
+
+    // 서버에서 정지 패킷 보내는 헬퍼
+    private void stopIceMakerSoundServer() {
+        if (this.level instanceof ServerLevel server) {
+            var pkt = new ClientboundStopSoundPacket(
+                    ModSoundEvents.ICE_MAKER_SOUND.get().getLocation(),
+                    SoundSource.BLOCKS
+            );
+            for (ServerPlayer p : server.players()) {
+                p.connection.send(pkt);
+            }
+        }
+    }
+
+    // 블록엔티티 제거/언로드 시에도 확실히 끊기
+    @Override
+    public void setRemoved() {
+        stopIceMakerSoundServer();
+        super.setRemoved();
+    }
+    @Override
+    public void onChunkUnloaded() {
+        stopIceMakerSoundServer();
+        super.onChunkUnloaded();
     }
 }

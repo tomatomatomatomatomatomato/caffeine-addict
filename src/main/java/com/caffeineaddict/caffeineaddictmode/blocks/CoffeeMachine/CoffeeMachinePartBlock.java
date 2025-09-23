@@ -17,20 +17,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
 
 public class CoffeeMachinePartBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    private static final int H = 12;
-
-//    private static final VoxelShape PART_W = Block.box(0, 0, 0,  8, 12, 16);
-//    private static final VoxelShape PART_E = Block.box(8, 0, 0, 16, 12, 16);
-//    private static final VoxelShape PART_N = Block.box(0, 0, 0, 16, 12,  8);
-//    private static final VoxelShape PART_S = Block.box(0, 0, 8, 16, 12, 16);
-    private static final VoxelShape PART_W = Block.box(0, 0, 0,  8, H, 16);
-    private static final VoxelShape PART_E = Block.box(8, 0, 0, 16, H, 16);
-    private static final VoxelShape PART_N = Block.box(0, 0, 0, 16, H,  8);
-    private static final VoxelShape PART_S = Block.box(0, 0, 8, 16, H, 16);
+//    private static final int H = 12;
+//    private static final VoxelShape PART_W = Block.box(0, 0, 0,   8, H, 16);
+//    private static final VoxelShape PART_E = Block.box(8, 0, 0,  16, H, 16);
+//    private static final VoxelShape PART_N = Block.box(0, 0, 0,  16, H,  8);
+//    private static final VoxelShape PART_S = Block.box(0, 0, 8,  16, H, 16);
 
     private static final VoxelShape SHAPE_NS = Block.box(0, 0, 0, 16, 16, 16); // 북/남 방향 때
     private static final VoxelShape SHAPE_EW = Block.box(0, 0, 0, 16, 16, 16); // 동/서 방향 때
@@ -46,11 +42,29 @@ public class CoffeeMachinePartBlock extends Block {
 //            default    -> PART_E;
 //        };
 //    }
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+        Direction f = state.getValue(FACING);
+        return (f == Direction.NORTH || f == Direction.SOUTH) ? SHAPE_NS : SHAPE_EW;
+    }
 //    @Override
 //    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-//        Direction f = state.getValue(FACING);
-//        return (f == Direction.NORTH || f == Direction.SOUTH) ? SHAPE_NS : SHAPE_EW;
+//        return switch (state.getValue(FACING)) {
+//            case NORTH -> PART_E; // 본체=WEST → 파트=EAST
+//            case EAST  -> PART_S; // 본체=NORTH → 파트=SOUTH
+//            case SOUTH -> PART_W; // 본체=EAST  → 파트=WEST
+//            case WEST  -> PART_N; // 본체=SOUTH → 파트=NORTH
+//            default    -> PART_E;
+//        };
 //    }
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+        return getShape(state, level, pos, ctx);
+    }
+    @Override
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+        return Shapes.empty();
+    }
 
     public CoffeeMachinePartBlock(Properties props) {
         super(props);
@@ -64,21 +78,6 @@ public class CoffeeMachinePartBlock extends Block {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext ctx) {
         return this.defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
-    }
-
-    @Override
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-        return switch (state.getValue(FACING)) {
-            case NORTH -> PART_E; // 본체가 WEST였으니 파트는 EAST 절반
-            case EAST  -> PART_S;
-            case SOUTH -> PART_W;
-            case WEST  -> PART_N;
-            default    -> PART_E;
-        };
-    }
-    @Override
-    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-        return getShape(state, level, pos, ctx);
     }
 
 

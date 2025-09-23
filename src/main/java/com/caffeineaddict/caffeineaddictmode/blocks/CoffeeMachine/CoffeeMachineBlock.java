@@ -1,9 +1,10 @@
 package com.caffeineaddict.caffeineaddictmode.blocks.CoffeeMachine;
 
 import com.caffeineaddict.caffeineaddictmode.CoffeeMachineBlockEntities;
+import com.caffeineaddict.caffeineaddictmode.registry.ModBlocks;
+import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
 //import javax.annotation.Nullable;
 
-import com.caffeineaddict.caffeineaddictmode.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,15 +30,21 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.sounds.SoundSource;
 import org.jetbrains.annotations.Nullable;
 
 public class CoffeeMachineBlock extends Block implements EntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
-    private static final VoxelShape MAIN_W = Block.box(0, 0, 0,  8, 12, 16); // X:0~8  (서쪽 절반)
-    private static final VoxelShape MAIN_E = Block.box(8, 0, 0, 16, 12, 16); // X:8~16 (동쪽 절반)
-    private static final VoxelShape MAIN_N = Block.box(0, 0, 0, 16, 12,  8); // Z:0~8  (북쪽 절반)
-    private static final VoxelShape MAIN_S = Block.box(0, 0, 8, 16, 12, 16); // Z:8~16 (남쪽 절반)
+//    private static final int H = 12;
+//    private static final VoxelShape MAIN_W = Block.box(0, 0, 0,   8, H, 16); // X:0~8
+//    private static final VoxelShape MAIN_E = Block.box(8, 0, 0,  16, H, 16); // X:8~16
+//    private static final VoxelShape MAIN_N = Block.box(0, 0, 0,  16, H,  8); // Z:0~8
+//    private static final VoxelShape MAIN_S = Block.box(0, 0, 8,  16, H, 16); // Z:8~16
 
     private static final VoxelShape SHAPE_NS = Block.box(0, 0, 0, 16, 16, 16); // 북/남 방향 때
     private static final VoxelShape SHAPE_EW = Block.box(0, 0, 0, 16, 16, 16); // 동/서 방향 때
@@ -45,12 +52,11 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
 
 //    @Override
 //    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
-//        // 본체는 플레이어 기준 “왼쪽 절반”에 위치하고, 파트가 오른쪽(시계방향)에 놓인다고 가정
 //        return switch (state.getValue(FACING)) {
-//            case NORTH -> MAIN_W; // 오른쪽=EAST → 본체는 WEST 절반
-//            case EAST  -> MAIN_N; // 오른쪽=SOUTH → 본체는 NORTH 절반
-//            case SOUTH -> MAIN_E; // 오른쪽=WEST  → 본체는 EAST 절반
-//            case WEST  -> MAIN_S; // 오른쪽=NORTH → 본체는 SOUTH 절반
+//            case NORTH -> MAIN_W; // 오른쪽=EAST → 본체=WEST 절반
+//            case EAST  -> MAIN_N; // 오른쪽=SOUTH → 본체=NORTH 절반
+//            case SOUTH -> MAIN_E; // 오른쪽=WEST  → 본체=EAST 절반
+//            case WEST  -> MAIN_S; // 오른쪽=NORTH → 본체=SOUTH 절반
 //            default    -> MAIN_W;
 //        };
 //    }
@@ -59,6 +65,15 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
         Direction f = state.getValue(FACING);
         return (f == Direction.NORTH || f == Direction.SOUTH) ? SHAPE_NS : SHAPE_EW;
     }
+    @Override
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext ctx) {
+        return getShape(state, level, pos, ctx);
+    }
+    @Override
+    public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos) {
+        return Shapes.empty();
+    }
+
 
     //    public CoffeeMachineBlock(Properties properties) {
 //        super(properties);
@@ -115,9 +130,18 @@ public class CoffeeMachineBlock extends Block implements EntityBlock {
         if (state.getBlock() != newState.getBlock()) {
             if (!level.isClientSide) {
                 Direction facing = state.getValue(FACING);
-                BlockPos otherPos = pos.relative(facing.getClockWise()); // ★ 동일 오프셋
+                BlockPos otherPos = pos.relative(facing.getClockWise());
                 if (level.getBlockState(otherPos).is(ModBlocks.COFFEE_MACHINE_PART.get())) {
                     level.destroyBlock(otherPos, false);
+                }
+
+                if (level instanceof ServerLevel server) {
+                    var stopCoffee = new ClientboundStopSoundPacket(
+                            ModSoundEvents.COFFEE_MACHINE_SOUND.get().getLocation(), SoundSource.BLOCKS);
+
+                    for (ServerPlayer p : server.players()) {
+                        p.connection.send(stopCoffee);
+                    }
                 }
             }
         }

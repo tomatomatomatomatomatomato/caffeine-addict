@@ -22,6 +22,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +34,10 @@ public class CoffeeMachineBlockEntity extends BlockEntity implements MenuProvide
     private final Container inventory = new SimpleContainer(4);
     private final ContainerData gauges = new SimpleContainerData(2);
     private String lastUsedBy = "";
+
+    private boolean wasWorking = false;
+    private long lastSoundGameTime = -200;
+    private static final int SOUND_COOLDOWN_TICKS = 220;
 
     public CoffeeMachineBlockEntity(BlockPos pos, BlockState state) {
         super(CoffeeMachineBlockEntities.COFFEE_MACHINE.get(), pos, state);
@@ -100,35 +109,89 @@ public class CoffeeMachineBlockEntity extends BlockEntity implements MenuProvide
 
     public void tick(Level level, BlockPos pos, BlockState state) {
         if (!level.isClientSide) {
+            boolean anyWorking = false; // 좌/우 헤드 중 하나라도 동작하면 true
+
             for (int i = 0; i < 2; i++) {
-                ItemStack input = inventory.getItem(i);
-                ItemStack output = inventory.getItem(i+2);
-                if (input.is(ModItems.GROUND_COFFEE.get()) && output.is(ModItems.SHOT_CUP.get())) {
+                ItemStack input  = inventory.getItem(i);
+                ItemStack output = inventory.getItem(i + 2);
+
+                boolean canProcess = input.is(ModItems.GROUND_COFFEE.get()) && output.is(ModItems.SHOT_CUP.get());
+
+                if (canProcess) {
+                    anyWorking = true;
+
                     int progress = gauges.get(i);
-                    //####################################################
-                    //여기에 게이지 움직임에 따른 커피 퀄리티 결정 로직으로 바꿔야함
-                    //####################################################
                     if (progress >= 24) {
-                        brew(i);
-                    }
-                    if (progress % 20 == 0) { // once per second
-                        level.playSound(
-                                null,         // null = all nearby players hear it
-                                worldPosition,
-                                SoundEvents.BREWING_STAND_BREW, // or your custom sound
-                                SoundSource.BLOCKS,
-                                1.0f,         // volume
-                                1.0f          // pitch
-                        );
+                        brew(i); // 추출 완료
                     }
                     progress = (progress + 1) % 25;
                     gauges.set(i, progress);
                 } else {
-                    gauges.set(i, 0); // reset if no item
+                    gauges.set(i, 0);
                 }
             }
+
+            // --- 사운드 전환 제어 ---
+//            if (anyWorking && !wasWorking) {
+//                long now = level.getGameTime();
+//                if (now - lastSoundGameTime >= SOUND_COOLDOWN_TICKS) {
+//                    level.playSound(null, worldPosition, ModSoundEvents.COFFEE_MACHINE_SOUND.get(),
+//                            SoundSource.BLOCKS, 2.0f, 1.0f);
+//                    lastSoundGameTime = now;
+//                }
+//            }
+//            if (!anyWorking && wasWorking) {
+//                stopCoffeeMachineSoundServer();
+//                lastSoundGameTime = level.getGameTime() - SOUND_COOLDOWN_TICKS;
+//            }
+            long now = level.getGameTime();
+            if (anyWorking) {
+                // 작업 중이라면 일정 주기로 다시 재생 (겹침 방지용 쿨다운)
+                if (now - lastSoundGameTime >= SOUND_COOLDOWN_TICKS) {
+                    level.playSound(
+                            null, worldPosition,
+                            ModSoundEvents.COFFEE_MACHINE_SOUND.get(),
+                            SoundSource.BLOCKS,
+                            2.0f,
+                            1.0f
+                    );
+                    lastSoundGameTime = now;
+                }
+            } else {
+                // 작업이 막 끝난 순간이라면 즉시 끊고, 재시작 즉시 가능하도록 쿨다운 리셋
+                if (wasWorking) {
+                    stopCoffeeMachineSoundServer();
+                    lastSoundGameTime = now - SOUND_COOLDOWN_TICKS;
+                }
+            }
+            wasWorking = anyWorking;
+
             setChanged();
         }
+    }
+
+    // 서버 정지 헬퍼
+    private void stopCoffeeMachineSoundServer() {
+        if (this.level instanceof ServerLevel server) {
+            var pkt = new ClientboundStopSoundPacket(
+                    ModSoundEvents.COFFEE_MACHINE_SOUND.get().getLocation(),
+                    SoundSource.BLOCKS
+            );
+            for (ServerPlayer p : server.players()) {
+                p.connection.send(pkt);
+            }
+        }
+    }
+
+    @Override
+    public void setRemoved() {
+        stopCoffeeMachineSoundServer();
+        super.setRemoved();
+    }
+    @Override
+    public void onChunkUnloaded() {
+        stopCoffeeMachineSoundServer();
+        super.onChunkUnloaded();
     }
 
     public Container getInventory() {

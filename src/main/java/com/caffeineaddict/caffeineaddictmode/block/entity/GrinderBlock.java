@@ -1,5 +1,9 @@
 package com.caffeineaddict.caffeineaddictmode.block.entity;
 
+import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 
@@ -24,7 +28,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class GrinderBlock extends Block implements EntityBlock {
     public GrinderBlock(Properties properties) {
-        super(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f));
+        //super(BlockBehaviour.Properties.of(Material.STONE).strength(2.0f));
+        super(properties);
     }
 
     @Nullable
@@ -57,5 +62,29 @@ public class GrinderBlock extends Block implements EntityBlock {
                 GrinderBlockEntity.tick(lvl, pos, st, grinder);
             }
         };
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            if (!level.isClientSide) {
+                if (level instanceof ServerLevel server) {
+                    var pkt = new ClientboundStopSoundPacket(
+                            ModSoundEvents.GRINDER_SOUND.get().getLocation(),
+                            SoundSource.BLOCKS
+                    );
+                    for (ServerPlayer p : server.players()) {
+                        p.connection.send(pkt);
+                    }
+                }
+                var be = level.getBlockEntity(pos);
+                if (be instanceof GrinderBlockEntity grinder) {
+                    // 필요 시 인벤토리 드랍 로직 호출
+                }
+            }
+            super.onRemove(state, level, pos, newState, isMoving);
+        } else {
+            super.onRemove(state, level, pos, newState, isMoving);
+        }
     }
 }

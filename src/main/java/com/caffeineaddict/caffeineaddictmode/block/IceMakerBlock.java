@@ -1,6 +1,7 @@
 package com.caffeineaddict.caffeineaddictmode.block;
 
 import com.caffeineaddict.caffeineaddictmode.block.entity.IceMakerBlockEntity;
+import com.caffeineaddict.caffeineaddictmode.sound.ModSoundEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,6 +30,10 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.protocol.game.ClientboundStopSoundPacket;
+import net.minecraft.sounds.SoundSource;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -171,5 +176,22 @@ public class IceMakerBlock extends HorizontalDirectionalBlock implements EntityB
                 IceMakerBlockEntity.tick(lvl, p, st, ice);
             }
         };
+    }
+
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
+        if (!state.is(newState.getBlock())) {
+            if (!level.isClientSide) {
+                if (level instanceof ServerLevel server) {
+                    var stopIce = new ClientboundStopSoundPacket(
+                            ModSoundEvents.ICE_MAKER_SOUND.get().getLocation(), SoundSource.BLOCKS);
+
+                    for (ServerPlayer p : server.players()) {
+                        p.connection.send(stopIce);
+                    }
+                }
+            }
+        }
+        super.onRemove(state, level, pos, newState, isMoving);
     }
 }
