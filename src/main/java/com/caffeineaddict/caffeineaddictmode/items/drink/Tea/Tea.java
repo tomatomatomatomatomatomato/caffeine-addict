@@ -1,6 +1,7 @@
-package com.caffeineaddict.caffeineaddictmode.drink;
+package com.caffeineaddict.caffeineaddictmode.items.drink.Tea;
 
 import com.caffeineaddict.caffeineaddictmode.items.drink.Drink;
+import com.caffeineaddict.caffeineaddictmode.items.drink.DrinkState;
 import com.caffeineaddict.caffeineaddictmode.registry.ModItems;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class Tea extends Drink {
     public Tea(List<MobEffect> goodEffects, int goodDuration, int goodAmplifier,
                List<MobEffect> badEffects, int badDuration, int badAmplifier) {
         // nutrition=1, saturation=0.3 고정
-        super(1, 0.3F, goodEffects, goodDuration, goodAmplifier);
+        super(1, 0.3F, goodEffects, goodDuration, goodAmplifier, DrinkState.HOT);
         this.badEffects = List.copyOf(badEffects);
         this.badDuration = badDuration;
         this.badAmplifier = badAmplifier;
