@@ -122,12 +122,8 @@ public class CoffeeMachineBlockEntity extends BlockEntity implements MenuProvide
             int quality = 0;
 
             if (distance <= 1) {
-                quality = 5; // 최고 등급
-            } else if (distance <= 3) {
-                quality = 4;
-            } else if (distance <= 6) {
-                quality = 3;
-            } else if (distance <= 9) {
+                quality = 3; // 최고 등급
+            } else if (distance <= 4) {
                 quality = 2;
             } else {
                 quality = 1; // 완전 멀어지면 최저 등급
